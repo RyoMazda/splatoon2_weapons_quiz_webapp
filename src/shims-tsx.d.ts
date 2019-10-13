@@ -10,4 +10,16 @@ declare global {
       [elem: string]: any;
     }
   }
+
+  interface Weapon {
+    name: string;
+    id: number;
+    subWeaponId: number;
+    specialWeaponId: number;
+  }
+
+  interface AnswerForm {
+    subWeaponId: number | null;
+    specialWeaponId: number | null;
+  }
 }
