@@ -132,7 +132,7 @@ export default class Home extends Vue {
   public get showAnswer(): boolean {
     const showAnswer =  !!(this.answerForm.subWeaponId !== null && this.answerForm.specialWeaponId !== null);
     if (showAnswer) {
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }
     return showAnswer;
   }
