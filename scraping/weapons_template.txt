@@ -1,0 +1,10 @@
+export default [
+  {%- for weapon in weapons %}
+    {
+      name: '{{ weapon.name }}',
+      id: {{ weapon.id }},
+      subWeaponId: {{ weapon.sub_weapon_id }},
+      specialWeaponId: {{ weapon.special_weapon_id }},
+    },
+  {%- endfor %}
+];

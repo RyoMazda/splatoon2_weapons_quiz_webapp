@@ -22,6 +22,7 @@
 
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
+        <p>{{ weapon.name }}</p>
         <div v-if="isCorrect">
           まあまあじゃん
         </div>
@@ -116,10 +117,12 @@ function getNextWeapon(): Weapon | undefined {
 }
 
 
-const emptyAnswerFrom: AnswerForm = {
-  subWeaponId: null,
-  specialWeaponId: null,
-};
+function getEmptyAnswerForm(): AnswerForm {
+  return {
+    subWeaponId: null,
+    specialWeaponId: null,
+  };
+}
 
 
 @Component({
@@ -133,7 +136,7 @@ export default class Home extends Vue {
   public numCorrect: number = 0;
   public numWrong: number = 0;
   public weapon: Weapon | undefined = getNextWeapon();
-  public answerForm: AnswerForm = emptyAnswerFrom;
+  public answerForm: AnswerForm = getEmptyAnswerForm();
 
   public get showAnswer(): boolean {
     return !!(this.answerForm.subWeaponId !== null && this.answerForm.specialWeaponId !== null);
@@ -170,8 +173,8 @@ export default class Home extends Vue {
     } else {
       this.numWrong += 1;
     }
+    this.answerForm = getEmptyAnswerForm();
     this.weapon = getNextWeapon();
-    this.answerForm = emptyAnswerFrom;
   }
 
 }
