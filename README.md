@@ -1,5 +1,13 @@
 # splatoon2_weapons_quiz_webapp
 
+## local development
+```bash
+docker-compose build && docker-compose up
+# Ctr + C to stop the server
+```
+
+---
+
 ## Project setup
 ```
 yarn install
