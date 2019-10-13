@@ -5,8 +5,11 @@
       <span>
         o: {{ numCorrect }}
       </span>
-        <span>
+      <span>
         x: {{ numWrong }}
+      </span>
+      <span>
+        / {{ numWeapons }}
       </span>
     </div>
 
@@ -133,6 +136,7 @@ function getEmptyAnswerForm(): AnswerForm {
 export default class Home extends Vue {
   public subWeaponIds: number[] = createArray(11, 23);
   public specialWeaponIds: number[] = createArray(8, 23);
+  public numWeapons: number = weapons.length;
   public numCorrect: number = 0;
   public numWrong: number = 0;
   public weapon: Weapon | undefined = getNextWeapon();

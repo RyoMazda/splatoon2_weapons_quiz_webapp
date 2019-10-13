@@ -6,6 +6,12 @@ docker-compose build && docker-compose up
 # Ctr + C to stop the server
 ```
 
+## S3 Deploy
+```bash
+yarn run build
+yarn deploy
+```
+
 ---
 
 ## Project setup
