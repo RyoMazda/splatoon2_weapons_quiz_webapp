@@ -79,7 +79,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import weapons from '@/weapons';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 function createArray(start: number, end: number): number[] {
   const foo = [];
@@ -120,11 +119,7 @@ function getEmptyAnswerForm(): AnswerForm {
 }
 
 
-@Component({
-  components: {
-    // HelloWorld,
-  },
-})
+@Component({})
 export default class Home extends Vue {
   public subWeaponIds: number[] = createArray(11, 23);
   public specialWeaponIds: number[] = createArray(8, 23);
