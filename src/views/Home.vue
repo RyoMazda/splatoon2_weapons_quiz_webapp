@@ -130,7 +130,11 @@ export default class Home extends Vue {
   public answerForm: AnswerForm = getEmptyAnswerForm();
 
   public get showAnswer(): boolean {
-    return !!(this.answerForm.subWeaponId !== null && this.answerForm.specialWeaponId !== null);
+    const showAnswer =  !!(this.answerForm.subWeaponId !== null && this.answerForm.specialWeaponId !== null);
+    if (showAnswer) {
+      window.scrollTo(0,0);
+    }
+    return showAnswer;
   }
   public get isCorrect(): boolean {
     return !!(
@@ -173,9 +177,12 @@ export default class Home extends Vue {
 
 
 <style scoped lang="scss">
+ul {
+  padding: 0;
+}
 li{
-  display:inline;
-  list-style-type:none;
+  display: inline;
+  list-style-type: none;
 }
 img {
   width: 80px;
@@ -191,5 +198,8 @@ img.answer {
 .showAnswer {
   font-size: x-large;
   font-weight: bold;
+}
+button {
+  font-size: x-large;
 }
 </style>
