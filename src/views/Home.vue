@@ -73,14 +73,6 @@
         </div>
       </div>
     </div>
-
-    <!--  Debug  -->
-    <hr>
-    <div>
-      <h2>Debug</h2>
-      {{ answerForm }}
-      {{ weapon }}
-    </div>
   </div>
 </template>
 
