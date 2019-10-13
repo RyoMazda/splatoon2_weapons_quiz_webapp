@@ -13,6 +13,7 @@ declare global {
 
   interface Weapon {
     name: string;
+    name_en?: string;
     id: number;
     subWeaponId: number;
     specialWeaponId: number;

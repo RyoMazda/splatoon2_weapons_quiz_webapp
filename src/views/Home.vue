@@ -25,7 +25,7 @@
 
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
-        <p>{{ weapon.name }}</p>
+        <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
         <div v-if="isCorrect">
           まあまあじゃん
         </div>
@@ -122,7 +122,7 @@ function getEmptyAnswerForm(): AnswerForm {
 @Component({})
 export default class Home extends Vue {
   public subWeaponIds: number[] = createArray(11, 23);
-  public specialWeaponIds: number[] = createArray(8, 23);
+  public specialWeaponIds: number[] = createArray(8, 12).concat(createArray(14, 23));
   public numWeapons: number = weapons.length;
   public numCorrect: number = 0;
   public numWrong: number = 0;
