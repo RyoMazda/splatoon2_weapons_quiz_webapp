@@ -3,13 +3,12 @@
 ## local development
 ```bash
 docker-compose build && docker-compose up
-# Ctr + C to stop the server
+# See http://localhost:8080/index.html
 ```
 
 ## S3 Deploy
 ```bash
-yarn run build
-yarn deploy
+yarn run build && yarn deploy
 ```
 
 ---
