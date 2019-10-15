@@ -7,6 +7,7 @@ import requests
 
 Weapon = Dict[str, Union[str, int]]
 
+
 class Scraper:
     def __init__(self):
         self.url = 'https://www.ikaclo.jp/2/weapons/'
