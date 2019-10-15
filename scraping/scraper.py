@@ -59,7 +59,6 @@ class Scraper:
             weapons.append(weapon)
         return weapons
 
-
     def run(self, output_path: str) -> None:
         data = {'weapons': self._get_weapons()}
 
