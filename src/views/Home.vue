@@ -2,14 +2,21 @@
   <div class="home">
     <h1>Splatoon2 Weapons Quiz</h1>
     <div>
+      <span>Life:&nbsp;</span>
+      <span v-for="i in remainingLife" :key="i">
+        &#10084;
+      </span>
+    </div>
+    <div>
       <span>
-        o: {{ numCorrect }}
+        sub: {{ numSubCorrect }}
+      </span>
+      <span>,&nbsp;</span>
+      <span>
+        special: {{ numSpecialCorrect }}
       </span>
       <span>
-        x: {{ numWrong }}
-      </span>
-      <span>
-        / {{ numWeapons }}
+        / {{ numTries }} ({{ numWeapons }})
       </span>
     </div>
 
@@ -38,11 +45,11 @@
 
       <div>
         <div>
-          <h3>Choose Correct Sub Weapon</h3>
+          <h3>Choose the correct Sub Weapon</h3>
           <ul>
             <li
                 v-for="id in subWeaponIds" :key="id"
-                @click="answerForm.subWeaponId = id"
+                @click="setSubWeaponId(id)"
             >
               <img
                   :src="subWeaponId2ImagePath(id)" alt="sub weapon"
@@ -55,11 +62,11 @@
           </ul>
         </div>
         <div>
-          <h3>Choose Correct Special Weapon</h3>
+          <h3>Choose the correct Special Weapon</h3>
           <ul>
             <li
                 v-for="id in specialWeaponIds" :key="id"
-                @click="answerForm.specialWeaponId = id"
+                @click="setSpecialWeaponId(id)"
             >
               <img
                   :src="specialWeaponId2ImagePath(id)" alt="special weapon"
@@ -124,10 +131,35 @@ export default class Home extends Vue {
   public subWeaponIds: number[] = createArray(11, 23);
   public specialWeaponIds: number[] = createArray(8, 12).concat(createArray(14, 23));
   public numWeapons: number = weapons.length;
-  public numCorrect: number = 0;
-  public numWrong: number = 0;
+  public numSubCorrect: number = 0;
+  public numSpecialCorrect: number = 0;
+  public numTries: number = 0;
+  public remainingLife: number = 10;
   public weapon: Weapon | undefined = getNextWeapon();
   public answerForm: AnswerForm = getEmptyAnswerForm();
+
+  // --------------------
+  // Logic
+  // --------------------
+  public get isCorrect(): boolean {
+    return !!(
+      this.weapon &&
+      this.answerForm.subWeaponId === this.weapon.subWeaponId &&
+      this.answerForm.specialWeaponId === this.weapon.specialWeaponId
+    );
+  }
+  public get isSubCorrect(): boolean {
+    return !!(
+      this.weapon &&
+      this.answerForm.subWeaponId === this.weapon.subWeaponId
+    );
+  }
+  public get isSpecialCorrect(): boolean {
+    return !!(
+      this.weapon &&
+      this.answerForm.specialWeaponId === this.weapon.specialWeaponId
+    );
+  }
 
   public get showAnswer(): boolean {
     const showAnswer =  !!(this.answerForm.subWeaponId !== null && this.answerForm.specialWeaponId !== null);
@@ -136,16 +168,24 @@ export default class Home extends Vue {
     }
     return showAnswer;
   }
-  public get isCorrect(): boolean {
-    return !!(
-      this.weapon &&
-      this.answerForm.subWeaponId === this.weapon.subWeaponId &&
-      this.answerForm.specialWeaponId === this.weapon.specialWeaponId
-    );
-  }
   public get isFinished(): boolean {
-    return !this.weapon;
+    return (this.remainingLife <= 0 || !this.weapon);
   }
+
+  // --------------------
+  // Methods
+  // --------------------
+  public setSubWeaponId(id: number): void {
+    if (!this.showAnswer) {
+      this.answerForm.subWeaponId = id;
+    }
+  }
+  public setSpecialWeaponId(id: number): void {
+    if (!this.showAnswer) {
+      this.answerForm.specialWeaponId = id;
+    }
+  }
+
 
   public weaponId2ImagePath(id: number): string {
     const ThreeDigitId = getThreeDigitInteger(id);
@@ -163,11 +203,19 @@ export default class Home extends Vue {
   }
 
   public goToNextQuiz(): void {
-    if (this.isCorrect) {
-      this.numCorrect += 1;
+    this.numTries += 1;
+
+    if (this.isSubCorrect) {
+      this.numSubCorrect += 1;
     } else {
-      this.numWrong += 1;
+      this.remainingLife -= 1;
     }
+    if (this.isSpecialCorrect) {
+      this.numSpecialCorrect += 1;
+    } else {
+      this.remainingLife -= 1;
+    }
+
     this.answerForm = getEmptyAnswerForm();
     this.weapon = getNextWeapon();
   }
@@ -201,5 +249,6 @@ img.answer {
 }
 button {
   font-size: x-large;
+  margin-top: 10px;
 }
 </style>
