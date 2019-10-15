@@ -22,12 +22,25 @@
 
     <div v-if="isFinished">
       終わりだし
+      <div>
+        <h2>復習べき</h2>
+        <div
+          v-for="weapon in missedWeapons" :key="weapon.id"
+        >
+          <p>{{ weapon.name }}</p>
+          <ul>
+            <li><img :src="weaponId2ImagePath(weapon.id)" alt=""></li>
+            <li><img :src="subWeaponId2ImagePath(weapon.subWeaponId)" alt=""></li>
+            <li><img :src="specialWeaponId2ImagePath(weapon.specialWeaponId)" alt=""></li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div v-else>
       <!--  Question  -->
       <div>
         <h2>You're familiar with this weapon, aren't you?</h2>
-        <img :src="weaponId2ImagePath(weapon.id)" alt="target weapon">
+        <img :src="weaponId2ImagePath(weapon.id)" alt="target weapon" class="main-img">
       </div>
 
       <!--  Answer  -->
@@ -137,6 +150,7 @@ export default class Home extends Vue {
   public remainingLife: number = 10;
   public weapon: Weapon | undefined = getNextWeapon();
   public answerForm: AnswerForm = getEmptyAnswerForm();
+  public missedWeapons: Weapon[] = [];
 
   // --------------------
   // Logic
@@ -213,7 +227,13 @@ export default class Home extends Vue {
     if (this.isSpecialCorrect) {
       this.numSpecialCorrect += 1;
     } else {
-      this.remainingLife -= 1;
+      if (this.remainingLife !== 0) {
+        this.remainingLife -= 1;
+      }
+    }
+
+    if (!this.isCorrect && this.weapon) {
+      this.missedWeapons.push(this.weapon);
     }
 
     this.answerForm = getEmptyAnswerForm();
@@ -232,15 +252,18 @@ li{
   display: inline;
   list-style-type: none;
 }
+.main-img {
+  width: 100px;
+}
 img {
-  width: 80px;
-  border: 5px white solid;
+  width: 50px;
+  border: 4px white solid;
 }
 img.chosen {
-  border: 5px blue solid;
+  border: 4px blue solid;
 }
 img.answer {
-  border: 10px red solid;
+  border: 4px red solid;
 }
 
 .showAnswer {
