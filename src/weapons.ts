@@ -655,7 +655,7 @@ export default [
       name_en: 'TBC ',
       id: 227,
       subWeaponId: 11,
-      specialWeaponId: 13,
+      specialWeaponId: 21,
     },
     {
       name: 'ヒッセン ',

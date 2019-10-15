@@ -5,6 +5,8 @@ from jinja2 import Environment, FileSystemLoader
 import requests
 
 
+Weapon = Dict[str, Union[str, int]]
+
 class Scraper:
     def __init__(self):
         self.url = 'https://www.ikaclo.jp/2/weapons/'
@@ -26,7 +28,13 @@ class Scraper:
                 html = f.read()
         return html
 
-    def _get_weapons(self) -> List[Dict[str, Union[str, int]]]:
+    @staticmethod
+    def _hot_fix_weapon(weapon: Weapon) -> None:
+        """"Fix weapon data since the source html itself is wrong"""
+        if weapon['id'] == 227:
+            weapon['specialWeaponId'] = 21
+
+    def _get_weapons(self) -> List[Weapon]:
         weapons = []
 
         tbody = self.soup.select_one('tbody')
@@ -46,8 +54,10 @@ class Scraper:
                 'sub_weapon_id': sub_weapon_id,
                 'special_weapon_id': special_weapon_id,
             }
+            self._hot_fix_weapon(weapon)
             weapons.append(weapon)
         return weapons
+
 
     def run(self, output_path: str) -> None:
         data = {'weapons': self._get_weapons()}
