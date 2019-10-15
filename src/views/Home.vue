@@ -27,7 +27,7 @@
         <div
           v-for="weapon in missedWeapons" :key="weapon.id"
         >
-          <p>{{ weapon.name }}</p>
+          <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
           <ul>
             <li><img :src="weaponId2ImagePath(weapon.id)" alt=""></li>
             <li><img :src="subWeaponId2ImagePath(weapon.subWeaponId)" alt=""></li>
