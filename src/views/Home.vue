@@ -147,7 +147,7 @@ export default class Home extends Vue {
   public numSubCorrect: number = 0;
   public numSpecialCorrect: number = 0;
   public numTries: number = 0;
-  public remainingLife: number = 10;
+  public remainingLife: number = 5;
   public weapon: Weapon | undefined = getNextWeapon();
   public answerForm: AnswerForm = getEmptyAnswerForm();
   public missedWeapons: Weapon[] = [];
