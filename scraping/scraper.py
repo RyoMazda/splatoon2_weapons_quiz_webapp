@@ -32,8 +32,8 @@ class Scraper:
     @staticmethod
     def _hot_fix_weapon(weapon: Weapon) -> None:
         """"Fix weapon data since the source html itself is wrong"""
-        if weapon['id'] == 227:
-            weapon['specialWeaponId'] = 21
+        if weapon['id'] == "227":
+            weapon['special_weapon_id'] = 21
 
     def _get_weapons(self) -> List[Weapon]:
         weapons = []
