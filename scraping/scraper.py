@@ -62,7 +62,7 @@ class Scraper:
     def run(self, output_path: str) -> None:
         data = {'weapons': self._get_weapons()}
 
-        env = Environment(loader=FileSystemLoader('.'))
+        env = Environment(loader=FileSystemLoader(os.path.dirname(__file__)))
         template = env.get_template('weapons_template.txt')
 
         output = template.render(data)
@@ -73,5 +73,6 @@ class Scraper:
 
 
 if __name__ == '__main__':
+    import os
     scraper = Scraper()
-    scraper.run(output_path='../src/weapons.ts')
+    scraper.run(output_path=os.path.join(os.path.dirname(__file__), '../src/weapons.ts'))
