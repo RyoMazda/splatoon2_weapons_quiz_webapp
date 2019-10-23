@@ -50,7 +50,7 @@ class Scraper:
                 tr.select('td')[1].select('img')[1].attrs['data-src'].split('/')[-1].split('.')[0].split('_')[-1])
             weapon = {
                 'name': name,
-                'name_en': name_en.replace("'", "\'"),
+                'name_en': name_en.replace("'", "\\'"),
                 'id': weapon_id,
                 'sub_weapon_id': sub_weapon_id,
                 'special_weapon_id': special_weapon_id,
