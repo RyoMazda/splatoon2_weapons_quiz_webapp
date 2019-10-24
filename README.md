@@ -7,6 +7,7 @@ docker-compose build && docker-compose up
 ```
 
 ## S3 Deploy
+Only for the owner
 ```bash
 yarn run build && yarn deploy
 ```

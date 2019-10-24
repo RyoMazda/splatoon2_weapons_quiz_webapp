@@ -5,7 +5,15 @@ services:
     build: .
     volumes:
       - ./public:/work/public
-      - ./src:/work/src
+      - ./src/assets:/work/src/assets
+      - ./src/components:/work/src/components
+      - ./src/views:/work/src/views
+      - ./src/App.vue:/work/src/App.vue
+      - ./src/main.ts:/work/src/main.ts
+      - ./src/router.ts:/work/src/router.ts
+      - ./src/shims-tsx.d.ts:/work/src/shims-tsx.d.ts
+      - ./src/shims-vue.d.ts:/work/src/shims-vue.d.ts
+      - ./src/store.ts:/work/src/store.ts
     ports:
       - 8080:8080
     tty: true
