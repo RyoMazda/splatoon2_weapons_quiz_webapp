@@ -67,11 +67,11 @@ class Scraper:
 
         output = template.render(data)
 
-        # htmlを上書き保存
         with open(output_path, 'w') as f:
             f.write(output)
+            f.write('\n')
 
 
 if __name__ == '__main__':
     scraper = Scraper()
-    scraper.run(output_path='../src/weapons.ts')
+    scraper.run(output_path='weapons.ts')
