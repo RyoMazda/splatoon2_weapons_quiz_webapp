@@ -46,6 +46,7 @@
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
         <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
+        <p>{{ weapon.bigClassName }} / {{ weapon.bigClassName_en }}</p>
         <div v-if="isCorrect">
           まあまあじゃん
         </div>
