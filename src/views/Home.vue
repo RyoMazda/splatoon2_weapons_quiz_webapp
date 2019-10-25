@@ -126,7 +126,7 @@ function shuffle(array: any[]): void {
   }
 }
 
-function getNextWeapon(): Weapon | undefined {
+function getNextWeapon(weapons: Weapon[]): Weapon | undefined {
   shuffle(weapons);
   return weapons.pop();
 }
@@ -142,14 +142,15 @@ function getEmptyAnswerForm(): AnswerForm {
 
 @Component({})
 export default class Home extends Vue {
+  public weapons: Weapon[] = weapons;
   public subWeaponIds: number[] = createArray(11, 23);
   public specialWeaponIds: number[] = createArray(8, 12).concat(createArray(14, 23));
-  public numWeapons: number = weapons.length;
+  public numWeapons: number = this.weapons.length;
   public numSubCorrect: number = 0;
   public numSpecialCorrect: number = 0;
   public numTries: number = 0;
   public remainingLife: number = 5;
-  public weapon: Weapon | undefined = getNextWeapon();
+  public weapon: Weapon | undefined = getNextWeapon(this.weapons);
   public answerForm: AnswerForm = getEmptyAnswerForm();
   public missedWeapons: Weapon[] = [];
 
@@ -238,7 +239,7 @@ export default class Home extends Vue {
     }
 
     this.answerForm = getEmptyAnswerForm();
-    this.weapon = getNextWeapon();
+    this.weapon = getNextWeapon(this.weapons);
   }
 
 }
