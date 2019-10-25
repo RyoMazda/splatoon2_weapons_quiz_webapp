@@ -162,7 +162,7 @@ function getEmptyAnswerForm(): AnswerForm {
 
 @Component({})
 export default class Home extends Vue {
-  public weapons: Weapon[] = weapons;
+  public weapons: Weapon[] = weapons.slice();
   public subWeaponIds: number[] = createArray(11, 23);
   public specialWeaponIds: number[] = createArray(8, 12).concat(createArray(14, 23));
   public numWeapons: number = this.weapons.length;
@@ -228,6 +228,7 @@ export default class Home extends Vue {
     this.weapons = weapons.filter((weapon) => {
       return name === 'ALL' || weapon.bigClassName_en === name;
     });
+    this.numWeapons = this.weapons.length;
     this.weapon = getNextWeapon(this.weapons);
   }
 
