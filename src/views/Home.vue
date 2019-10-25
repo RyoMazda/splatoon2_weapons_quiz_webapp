@@ -1,6 +1,23 @@
 <template>
   <div class="home">
     <h1>Splatoon2 Weapons Quiz</h1>
+    <ul>
+      <li>
+        <img
+          src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCXtjxPKZr5Y28sOL6Z9elUNjkUrrSE8BFtcrejD38pWzhftAc&s' alt="weapon-class" class='small-main-img'
+          :class="{ chosen: weaponClassName === 'ALL' }"
+          @click="filterWeaponClassName('ALL')"
+        >
+      </li>
+      <li
+        v-for="weapon in bigWeaponClassess" :key="weapon.id"
+        @click="filterWeaponClassName(weapon.bigClassName_en)"
+      >
+        <img :src="weaponId2ImagePath(weapon.id)" alt="weapon-class" class="small-main-img"
+             :class="{ chosen: weaponClassName === weapon.bigClassName_en }"
+        >
+      </li>
+    </ul>
     <div>
       <span>Life:&nbsp;</span>
       <span v-for="i in remainingLife" :key="i">
@@ -100,6 +117,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import weapons from '@/weapons';
+const weaponClassRepresentatives = weapons.filter((weapon) => {
+  return [92, 93, 94, 96, 97, 95, 141].includes(weapon.id);
+});
 
 function createArray(start: number, end: number): number[] {
   const foo = [];
@@ -126,9 +146,9 @@ function shuffle(array: any[]): void {
   }
 }
 
-function getNextWeapon(weapons: Weapon[]): Weapon | undefined {
-  shuffle(weapons);
-  return weapons.pop();
+function getNextWeapon(weapons2answer: Weapon[]): Weapon | undefined {
+  shuffle(weapons2answer);
+  return weapons2answer.pop();
 }
 
 
@@ -153,6 +173,8 @@ export default class Home extends Vue {
   public weapon: Weapon | undefined = getNextWeapon(this.weapons);
   public answerForm: AnswerForm = getEmptyAnswerForm();
   public missedWeapons: Weapon[] = [];
+  public bigWeaponClassess: Weapon[] = weaponClassRepresentatives;
+  public weaponClassName = 'ALL';
 
   // --------------------
   // Logic
@@ -200,6 +222,13 @@ export default class Home extends Vue {
     if (!this.showAnswer) {
       this.answerForm.specialWeaponId = id;
     }
+  }
+  public filterWeaponClassName(name: string): void {
+    this.weaponClassName = name;
+    this.weapons = weapons.filter((weapon) => {
+      return name === 'ALL' || weapon.bigClassName_en === name;
+    });
+    this.weapon = getNextWeapon(this.weapons);
   }
 
 
@@ -256,6 +285,9 @@ li{
 }
 .main-img {
   width: 100px;
+}
+.small-main-img {
+  width: 40px;
 }
 img {
   width: 50px;
