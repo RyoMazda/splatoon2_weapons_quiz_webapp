@@ -228,10 +228,15 @@ export default class Home extends Vue {
     this.weapons = weapons.filter((weapon) => {
       return name === 'ALL' || weapon.bigClassName_en === name;
     });
+    this.numSubCorrect = 0;
+    this.numSpecialCorrect = 0;
+    this.numTries = 0;
+    this.remainingLife = 5;
+    this.answerForm = getEmptyAnswerForm();
+    this.missedWeapons = [];
     this.numWeapons = this.weapons.length;
     this.weapon = getNextWeapon(this.weapons);
   }
-
 
   public weaponId2ImagePath(id: number): string {
     const ThreeDigitId = getThreeDigitInteger(id);
