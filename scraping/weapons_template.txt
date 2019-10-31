@@ -4,6 +4,8 @@ export default [
       name: '{{ weapon.name }}',
       name_en: '{{ weapon.name_en }}',
       id: {{ weapon.id }},
+      bigClassName: '{{ weapon.big_class_name }}',
+      bigClassName_en: '{{ weapon.big_class_name_en }}',
       subWeaponId: {{ weapon.sub_weapon_id }},
       specialWeaponId: {{ weapon.special_weapon_id }},
     },

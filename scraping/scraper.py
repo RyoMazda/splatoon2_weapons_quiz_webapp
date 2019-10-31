@@ -44,6 +44,8 @@ class Scraper:
             name = tr.select_one('.txt>a>span').getText()
             name_en = tr_en.select_one('.txt>a>span').getText()
             weapon_id = tr.select_one('.img>a').attrs['href'].split('/')[-1]
+            weapon_big_class_name = tr.select('td')[2].getText()
+            weapon_big_class_name_en = tr_en.select('td')[2].getText()
             sub_weapon_id = int(
                 tr.select('td')[1].select('img')[0].attrs['data-src'].split('/')[-1].split('.')[0].split('_')[-1])
             special_weapon_id = int(
@@ -52,6 +54,8 @@ class Scraper:
                 'name': name,
                 'name_en': name_en.replace("'", "\\'"),
                 'id': weapon_id,
+                'big_class_name': weapon_big_class_name,
+                'big_class_name_en': weapon_big_class_name_en,
                 'sub_weapon_id': sub_weapon_id,
                 'special_weapon_id': special_weapon_id,
             }
@@ -62,7 +66,7 @@ class Scraper:
     def run(self, output_path: str) -> None:
         data = {'weapons': self._get_weapons()}
 
-        env = Environment(loader=FileSystemLoader('.'))
+        env = Environment(loader=FileSystemLoader(os.path.dirname(__file__)))
         template = env.get_template('weapons_template.txt')
 
         output = template.render(data)
@@ -73,5 +77,6 @@ class Scraper:
 
 
 if __name__ == '__main__':
+    import os
     scraper = Scraper()
-    scraper.run(output_path='../src/weapons.ts')
+    scraper.run(output_path=os.path.join(os.path.dirname(__file__), '../src/weapons.ts'))
