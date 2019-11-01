@@ -15,6 +15,10 @@ declare global {
     name: string;
     name_en?: string;
     id: number;
+    bigClassName: string;
+    bigClassName_en: string;
+    middleClassName: string;
+    middleClassName_en: string;
     subWeaponId: number;
     specialWeaponId: number;
   }
