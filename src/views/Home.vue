@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <h1>Splatoon2 Weapons Quiz</h1>
-    <ul>
+    <ul class='class-weapons-list'>
       <li>
         <img
           src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCXtjxPKZr5Y28sOL6Z9elUNjkUrrSE8BFtcrejD38pWzhftAc&s' alt="weapon-class" class='small-main-img'
-          :class="{ chosen: weaponClassName === 'ALL' }"
+          :class="{ chosen: bigWeaponClassName === 'ALL' }"
           @click="filterWeaponClassName('ALL')"
         >
       </li>
@@ -14,24 +14,17 @@
         @click="filterWeaponClassName(weapon.bigClassName_en)"
       >
         <img :src="weaponId2ImagePath(weapon.id)" alt="weapon-class" class="small-main-img"
-             :class="{ chosen: weaponClassName === weapon.bigClassName_en }"
+             :class="{ chosen: bigWeaponClassName === weapon.bigClassName_en }"
         >
       </li>
     </ul>
-    <ul>
-      <li>
-        <img
-          src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCXtjxPKZr5Y28sOL6Z9elUNjkUrrSE8BFtcrejD38pWzhftAc&s' alt="weapon-class" class='small-main-img'
-          :class="{ chosen: weaponClassName === 'ALL' }"
-          @click="filterMiddleWeaponClassName('ALL')"
-        >
-      </li>
+    <ul v-if="middleClassWeaponsOfChosenBigWeaponClass.length >= 2" class="class-weapons-list">
       <li
-        v-for="weapon in middleWeaponClassess" :key="weapon.id"
+        v-for="weapon in middleClassWeaponsOfChosenBigWeaponClass" :key="weapon.id"
         @click="filterMiddleWeaponClassName(weapon.middleClassName_en)"
       >
         <img :src="weaponId2ImagePath(weapon.id)" alt="weapon-class" class="small-main-img"
-             :class="{ chosen: weaponClassName === weapon.middleClassName_en }"
+             :class="{ chosen: middleWeaponClassName === weapon.middleClassName_en }"
         >
       </li>
     </ul>
@@ -198,7 +191,8 @@ export default class Home extends Vue {
   public missedWeapons: Weapon[] = [];
   public bigWeaponClassess: Weapon[] = weaponClassRepresentatives;
   public middleWeaponClassess: Weapon[] = middleWeaponClassRepresentatives;
-  public weaponClassName = 'ALL';
+  public bigWeaponClassName: string = 'ALL';
+  public middleWeaponClassName: string = 'ALL';
 
   // --------------------
   // Logic
@@ -235,7 +229,16 @@ export default class Home extends Vue {
   }
 
   public get bigWeaponClassNameEqualsMiddleWeaponClassName(): boolean {
-    return this.weapon.bigClassName != this.weapon.middleClassName;
+    if (this === undefined) { return false; }
+    if (this.weapon === undefined) { return false; }
+    return this.weapon.bigClassName !== this.weapon.middleClassName;
+  }
+
+  public get middleClassWeaponsOfChosenBigWeaponClass(): Weapon[] {
+    if (this === undefined) { return []; }
+    return middleWeaponClassRepresentatives.filter((representativeWeapon) => {
+      return representativeWeapon.bigClassName_en === this.bigWeaponClassName;
+    });
   }
 
   // --------------------
@@ -252,7 +255,8 @@ export default class Home extends Vue {
     }
   }
   public filterWeaponClassName(name: string): void {
-    this.weaponClassName = name;
+    this.bigWeaponClassName = name;
+    this.middleWeaponClassName = 'ALL';
     this.weapons = weapons.filter((weapon) => {
       return name === 'ALL' || weapon.bigClassName_en === name;
     });
@@ -266,7 +270,7 @@ export default class Home extends Vue {
     this.weapon = getNextWeapon(this.weapons);
   }
   public filterMiddleWeaponClassName(name: string): void {
-    this.weaponClassName = name;
+    this.middleWeaponClassName = name;
     this.weapons = weapons.filter((weapon) => {
       return name === 'ALL' || weapon.middleClassName_en === name;
     });
@@ -355,5 +359,8 @@ img.answer {
 button {
   font-size: x-large;
   margin-top: 10px;
+}
+.class-weapons-list {
+  margin: 0px auto;
 }
 </style>
