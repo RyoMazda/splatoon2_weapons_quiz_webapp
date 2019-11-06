@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <h1>Splatoon2 Weapons Quiz</h1>
-    <ul>
+    <ul class='class-weapons-list'>
       <li>
         <img
           src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCXtjxPKZr5Y28sOL6Z9elUNjkUrrSE8BFtcrejD38pWzhftAc&s' alt="weapon-class" class='small-main-img'
-          :class="{ chosen: weaponClassName === 'ALL' }"
+          :class="{ chosen: bigWeaponClassName === 'ALL' }"
           @click="filterWeaponClassName('ALL')"
         >
       </li>
@@ -14,7 +14,17 @@
         @click="filterWeaponClassName(weapon.bigClassName_en)"
       >
         <img :src="weaponId2ImagePath(weapon.id)" alt="weapon-class" class="small-main-img"
-             :class="{ chosen: weaponClassName === weapon.bigClassName_en }"
+             :class="{ chosen: bigWeaponClassName === weapon.bigClassName_en }"
+        >
+      </li>
+    </ul>
+    <ul v-if="middleClassWeaponsOfChosenBigWeaponClass.length >= 2" class="class-weapons-list">
+      <li
+        v-for="weapon in middleClassWeaponsOfChosenBigWeaponClass" :key="weapon.id"
+        @click="filterMiddleWeaponClassName(weapon.middleClassName_en)"
+      >
+        <img :src="weaponId2ImagePath(weapon.id)" alt="weapon-class" class="small-main-img"
+             :class="{ chosen: middleWeaponClassName === weapon.middleClassName_en }"
         >
       </li>
     </ul>
@@ -63,7 +73,10 @@
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
         <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
-        <p>{{ weapon.bigClassName }} / {{ weapon.bigClassName_en }}</p>
+        <p>
+          {{ weapon.bigClassName    }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName    }})</span>/
+          {{ weapon.bigClassName_en }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName_en }})</span>
+        </p>
         <div v-if="isCorrect">
           まあまあじゃん
         </div>
@@ -120,6 +133,9 @@ import weapons from '@/weapons';
 const weaponClassRepresentatives = weapons.filter((weapon) => {
   return [92, 93, 94, 96, 97, 95, 141].includes(weapon.id);
 });
+const middleWeaponClassRepresentatives = weapons.filter((weapon) => {
+  return [92, 98, 93, 99, 94, 96, 97, 95, 141].includes(weapon.id);
+});
 
 function createArray(start: number, end: number): number[] {
   const foo = [];
@@ -174,7 +190,9 @@ export default class Home extends Vue {
   public answerForm: AnswerForm = getEmptyAnswerForm();
   public missedWeapons: Weapon[] = [];
   public bigWeaponClassess: Weapon[] = weaponClassRepresentatives;
-  public weaponClassName = 'ALL';
+  public middleWeaponClassess: Weapon[] = middleWeaponClassRepresentatives;
+  public bigWeaponClassName: string = 'ALL';
+  public middleWeaponClassName: string = 'ALL';
 
   // --------------------
   // Logic
@@ -210,6 +228,19 @@ export default class Home extends Vue {
     return (this.remainingLife <= 0 || !this.weapon);
   }
 
+  public get bigWeaponClassNameEqualsMiddleWeaponClassName(): boolean {
+    if (this === undefined) { return false; }
+    if (this.weapon === undefined) { return false; }
+    return this.weapon.bigClassName !== this.weapon.middleClassName;
+  }
+
+  public get middleClassWeaponsOfChosenBigWeaponClass(): Weapon[] {
+    if (this === undefined) { return []; }
+    return middleWeaponClassRepresentatives.filter((representativeWeapon) => {
+      return representativeWeapon.bigClassName_en === this.bigWeaponClassName;
+    });
+  }
+
   // --------------------
   // Methods
   // --------------------
@@ -224,9 +255,24 @@ export default class Home extends Vue {
     }
   }
   public filterWeaponClassName(name: string): void {
-    this.weaponClassName = name;
+    this.bigWeaponClassName = name;
+    this.middleWeaponClassName = 'ALL';
     this.weapons = weapons.filter((weapon) => {
       return name === 'ALL' || weapon.bigClassName_en === name;
+    });
+    this.numSubCorrect = 0;
+    this.numSpecialCorrect = 0;
+    this.numTries = 0;
+    this.remainingLife = 5;
+    this.answerForm = getEmptyAnswerForm();
+    this.missedWeapons = [];
+    this.numWeapons = this.weapons.length;
+    this.weapon = getNextWeapon(this.weapons);
+  }
+  public filterMiddleWeaponClassName(name: string): void {
+    this.middleWeaponClassName = name;
+    this.weapons = weapons.filter((weapon) => {
+      return name === 'ALL' || weapon.middleClassName_en === name;
     });
     this.numSubCorrect = 0;
     this.numSpecialCorrect = 0;
@@ -313,5 +359,8 @@ img.answer {
 button {
   font-size: x-large;
   margin-top: 10px;
+}
+.class-weapons-list {
+  margin: 0px auto;
 }
 </style>
