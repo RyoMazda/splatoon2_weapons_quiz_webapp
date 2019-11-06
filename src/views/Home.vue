@@ -70,16 +70,18 @@
 
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
-        <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
-        <p>
+        <p class="weapon-class-name">
           {{ weapon.bigClassName    }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName    }})</span>/
           {{ weapon.bigClassName_en }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName_en }})</span>
         </p>
-        <div v-if="isCorrect">
-          まあまあじゃん
-        </div>
-        <div v-else>
-          違うし
+        <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
+        <div class="answer-message">
+          <p v-if="isCorrect">
+            まあまあじゃん
+          </p>
+          <p v-else>
+            違うし
+          </p>
         </div>
 
         <button @click="goToNextQuiz">Next</button>
@@ -344,7 +346,7 @@ li{
   width: 36px;
 }
 .question {
-  margin: 20px;
+  margin: 16px;
 }
 img {
   width: 44px;
@@ -358,8 +360,19 @@ img.answer {
 }
 
 .showAnswer {
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
+  padding: 0 0.2rem;
+  .weapon-class-name {
+    color: #555;
+    font-size: x-small;
+  }
+  p {
+    margin: 2px 0;
+  }
+  .answer-message {
+    margin: 6px 0;
+  }
 }
 button {
   font-size: x-large;
