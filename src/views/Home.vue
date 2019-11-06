@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Splatoon2 Weapons Quiz</h1>
     <ul class='class-weapons-list'>
       <li>
         <img
@@ -65,8 +64,7 @@
     </div>
     <div v-else>
       <!--  Question  -->
-      <div>
-        <h2>You're familiar with this weapon, aren't you?</h2>
+      <div class="question">
         <img :src="weaponId2ImagePath(weapon.id)" alt="target weapon" class="main-img">
       </div>
 
@@ -328,8 +326,12 @@ export default class Home extends Vue {
 
 
 <style scoped lang="scss">
+h3 {
+  margin: 10px 0 0;
+}
 ul {
   padding: 0;
+  margin-top: 10px;
 }
 li{
   display: inline;
@@ -339,10 +341,13 @@ li{
   width: 100px;
 }
 .small-main-img {
-  width: 40px;
+  width: 36px;
+}
+.question {
+  margin: 20px;
 }
 img {
-  width: 50px;
+  width: 44px;
   border: 4px white solid;
 }
 img.chosen {
@@ -361,6 +366,6 @@ button {
   margin-top: 10px;
 }
 .class-weapons-list {
-  margin: 0px auto;
+  margin: 0 auto;
 }
 </style>
