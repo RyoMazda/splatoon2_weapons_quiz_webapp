@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Splatoon2 Weapons Quiz</h1>
     <ul class='class-weapons-list'>
       <li>
         <img
@@ -65,23 +64,24 @@
     </div>
     <div v-else>
       <!--  Question  -->
-      <div>
-        <h2>You're familiar with this weapon, aren't you?</h2>
+      <div class="question">
         <img :src="weaponId2ImagePath(weapon.id)" alt="target weapon" class="main-img">
       </div>
 
       <!--  Answer  -->
       <div v-if="showAnswer" class="showAnswer">
-        <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
-        <p>
+        <p class="weapon-class-name">
           {{ weapon.bigClassName    }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName    }})</span>/
           {{ weapon.bigClassName_en }}<span v-if="bigWeaponClassNameEqualsMiddleWeaponClassName">({{ weapon.middleClassName_en }})</span>
         </p>
-        <div v-if="isCorrect">
-          まあまあじゃん
-        </div>
-        <div v-else>
-          違うし
+        <p>{{ weapon.name }} / {{ weapon.name_en }}</p>
+        <div class="answer-message">
+          <p v-if="isCorrect">
+            まあまあじゃん
+          </p>
+          <p v-else>
+            違うし
+          </p>
         </div>
 
         <button @click="goToNextQuiz">Next</button>
@@ -328,8 +328,12 @@ export default class Home extends Vue {
 
 
 <style scoped lang="scss">
+h3 {
+  margin: 10px 0 0;
+}
 ul {
   padding: 0;
+  margin-top: 10px;
 }
 li{
   display: inline;
@@ -339,10 +343,13 @@ li{
   width: 100px;
 }
 .small-main-img {
-  width: 40px;
+  width: 36px;
+}
+.question {
+  margin: 16px;
 }
 img {
-  width: 50px;
+  width: 44px;
   border: 4px white solid;
 }
 img.chosen {
@@ -353,14 +360,25 @@ img.answer {
 }
 
 .showAnswer {
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
+  padding: 0 0.2rem;
+  .weapon-class-name {
+    color: #555;
+    font-size: x-small;
+  }
+  p {
+    margin: 2px 0;
+  }
+  .answer-message {
+    margin: 6px 0;
+  }
 }
 button {
   font-size: x-large;
   margin-top: 10px;
 }
 .class-weapons-list {
-  margin: 0px auto;
+  margin: 0 auto;
 }
 </style>
