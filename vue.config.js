@@ -3,8 +3,8 @@ module.exports = {
     s3Deploy: {
       registry: undefined,
       awsProfile: 'ams',
-      region: 'ap-northeast-1',
-      bucket: 'splatoon2-weapons-quiz-webapp',
+      region: 'ap-southeast-1',
+      bucket: 'ika.pigimaru.com',
       createBucket: true,
       staticHosting: true,
       staticIndexPage: 'index.html',

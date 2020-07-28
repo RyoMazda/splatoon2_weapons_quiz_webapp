@@ -9,8 +9,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/index.html',
+      path: '/',
       name: 'home',
+      component: Home,
+    },
+    {
+      path: '*',
+      redirect: '/',
+      name: 'redirect',
       component: Home,
     },
   ],

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Splatoon2 Weapons Quiz</h1>
+    <h1>Splatoon2 Weapons Quiz v0.0.2</h1>
     <router-view/>
   </div>
 </template>
